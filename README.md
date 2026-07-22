@@ -37,6 +37,18 @@ npm run dev
 
 Then open [http://localhost:3000](http://localhost:3000) in your browser.
 
+### Environment Variables
+Create a `.env.local` file in the project root:
+```bash
+cp .env.example .env.local
+```
+| Variable | Description | Required |
+|---|---|---|
+| `NEXT_PUBLIC_API_BASE_URL` | Base URL for the backend API | Yes |
+| `LLM_API_KEY` | API key for your LLM provider (e.g., OpenAI, Anthropic) | Yes |
+
+> **Note:** Never commit `.env.local` — it is already covered by `.gitignore`.
+
 ## Project Structure
 ```
 .
