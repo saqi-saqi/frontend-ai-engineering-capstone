@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Fluency Internship · Week 3 Deliverable (Muhammad Saqib Tariq)</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card: #0f172a;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --indigo: #6366f1;
+      --rose: #f43f5e;
+      --emerald: #10b981;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    h1, h2, h3 {
+      color: #fff;
+      font-weight: 700;
+    }
+    h1 {
+      font-size: 28px;
+      border-bottom: 2px solid var(--indigo);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 20px;
+      margin-top: 36px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+    h3 {
+      font-size: 16px;
+      color: var(--indigo);
+    }
+    .meta-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      font-size: 14px;
+    }
+    .meta-box p {
+      margin: 4px 0;
+    }
+    blockquote {
+      background: rgba(99, 102, 241, 0.1);
+      border-left: 4px solid var(--indigo);
+      margin: 16px 0;
+      padding: 12px 18px;
+      border-radius: 0 8px 8px 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: #e0e7ff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 13px;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+    th {
+      background: #1e293b;
+      color: #fff;
+    }
+    tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .badge-rose {
+      color: var(--rose);
+      font-weight: bold;
+    }
+    .badge-emerald {
+      color: var(--emerald);
+      font-weight: bold;
+    }
+    pre {
+      background: #020617;
+      border: 1px solid var(--border);
+      padding: 14px;
+      border-radius: 8px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 12px;
+      overflow-x: auto;
+      color: #a5b4fc;
+    }
+    .color-swatch {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      vertical-align: middle;
+      margin-right: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <h1>AI Fluency Internship · Week 3 Deliverable</h1>
+    <p style="color: var(--muted); font-size: 15px;">Theme: Map It & Give It a Face (Portfolio Identity, Content Map & AI Judgment Audit)</p>
+
+    <div class="meta-box">
+      <p><strong>Student Name:</strong> Muhammad Saqib Tariq</p>
+      <p><strong>Student ID:</strong> 04072213009</p>
+      <p><strong>Track:</strong> AI Fluency (FL-03)</p>
+      <p><strong>Featured Project:</strong> MindGuard AI · Front-End AI Companion & Crisis Triage</p>
+      <p><strong>Live Deployment:</strong> <a href="https://prismatic-dodol-61734a.netlify.app" style="color: var(--indigo);" target="_blank">https://prismatic-dodol-61734a.netlify.app</a></p>
+      <p><strong>Repository Link:</strong> <a href="https://github.com/saqi-saqi/frontend-ai-engineering-capstone" style="color: var(--indigo);" target="_blank">GitHub Repository</a></p>
+    </div>
+
+    <h2>1. The Through-Line: One-Line Claim & Content Map</h2>
+    
+    <h3>1.1 AI Ideation & Human Sharpening</h3>
+    <p>10 distinct one-line claim variations were generated with AI and evaluated. AI produced bloated and generic descriptions; human judgment was applied to eliminate buzzwords and focus on verified technical capabilities.</p>
+    
+    <blockquote>
+      "Front-End AI Engineer building low-latency streaming interfaces, Hick's Law crisis triage systems, and accessible web experiences."
+    </blockquote>
+
+    <h3>1.2 Content Map & Page Hierarchy</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Page / Route</th>
+          <th>Ordered Sections</th>
+          <th>Featured Case / Proof</th>
+          <th>Primary Call to Action (CTA)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>/ (Overview)</strong></td>
+          <td>Hero Claim, Proof Badges, Route Directory, Deploy Banner</td>
+          <td>MindGuard AI Flagship Case</td>
+          <td><code>Launch Live Chat →</code></td>
+        </tr>
+        <tr>
+          <td><strong>/chat (Live Chat)</strong></td>
+          <td>TTFT Header, Token Stream (SSE), Intent Badges, Crisis Gate</td>
+          <td>120ms Token Streaming Simulation</td>
+          <td><code>Test Emergency 988 Triage →</code></td>
+        </tr>
+        <tr>
+          <td><strong>/crisis (Triage)</strong></td>
+          <td>Emergency Alert, 3 Hick's Law Actions, Desktop Clipboard Copy</td>
+          <td>Hick's Law Clinical Safety Design</td>
+          <td><code>Copy 988 to Clipboard</code></td>
+        </tr>
+        <tr>
+          <td><strong>/telemetry</strong></td>
+          <td>TTFT Metrics (120ms), Benchmark Table, Live Audit Stream</td>
+          <td>Quantitative Observability</td>
+          <td><code>Inspect Live /health SSR Route →</code></td>
+        </tr>
+        <tr>
+          <td><strong>/settings</strong></td>
+          <td>RFC Email Regex, Masked API Key Toggle, Model Controls</td>
+          <td>WCAG 2.1 AA Accessible Form</td>
+          <td><code>Save Active Session Config</code></td>
+        </tr>
+        <tr>
+          <td><strong>/health</strong></td>
+          <td>SSR Uptime, Service Latency Probes, Zero-Secret Audit</td>
+          <td>Next.js 15 Server Diagnostics</td>
+          <td><code>GET /api/health Endpoint ↗</code></td>
+        </tr>
+        <tr>
+          <td><strong>/devlog</strong></td>
+          <td>Prompt Ladders, Human Refactoring Diffs, Checklist</td>
+          <td>AI Fluency & Pairing Methodology</td>
+          <td><code>View GitHub Commits ↗</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>2. Visual Identity Kit (Decide Once)</h2>
+    <p><em>"The design is the frame, not the painting. Your work is the painting."</em></p>
+    
+    <div class="card">
+      <p><strong>Typography:</strong> <code>Inter</code> (Headings & Body) + <code>JetBrains Mono</code> (Code & Telemetry)</p>
+      <p><strong>Color Palette:</strong></p>
+      <ul>
+        <li><span class="color-swatch" style="background-color: #090d16;"></span> <strong>Background:</strong> <code>#090D16</code> (Deep Navy Slate)</li>
+        <li><span class="color-swatch" style="background-color: #0f172a;"></span> <strong>Card / Surface:</strong> <code>#0F172A</code> (Glass 75% Alpha)</li>
+        <li><span class="color-swatch" style="background-color: #f1f5f9;"></span> <strong>Primary Text:</strong> <code>#F1F5F9</code> (Near-White Slate 100)</li>
+        <li><span class="color-swatch" style="background-color: #6366f1;"></span> <strong>Accent Primary:</strong> <code>#6366F1</code> (Indigo 500)</li>
+        <li><span class="color-swatch" style="background-color: #f43f5e;"></span> <strong>Accent Crisis:</strong> <code>#F43F5E</code> (Rose 500 - Emergency Only)</li>
+        <li><span class="color-swatch" style="background-color: #10b981;"></span> <strong>Accent Health:</strong> <code>#10B981</code> (Emerald 500 - Operational)</li>
+      </ul>
+      <p><strong>Two-Line Style Note:</strong></p>
+      <p style="color: var(--muted); font-size: 13px;">
+        Typography uses clean Inter paired with JetBrains Mono; palette is a calm deep navy (#090D16) with crisp near-white text (#F1F5F9) and disciplined indigo (#6366F1) / emergency rose (#F43F5E) accents. The aesthetic is an engineering-grade dark cockpit: high-contrast, WCAG AA compliant, and quiet enough that live code proof remains the brightest element on screen.
+      </p>
+    </div>
+
+    <h2>3. Curate Images & AI Rejection Audit</h2>
+    <p>AI was tested to generate image concepts. All 3 AI image proposals were <strong>rejected on purpose</strong> in favor of real, unedited code and UI captures:</p>
+
+    <div class="card">
+      <p><span class="badge-rose">❌ REJECTED Concept 1:</span> <em>"Glowing 3D holographic neural brain with neon circuits"</em><br>
+      <small style="color: var(--muted);">Reason: Classic "AI slop". Adds zero proof of front-end engineering, clutters viewport, and looks like a generic crypto website.</small></p>
+    </div>
+
+    <div class="card">
+      <p><span class="badge-rose">❌ REJECTED Concept 2:</span> <em>"Photorealistic AI humanoid robot counseling a patient"</em><br>
+      <small style="color: var(--muted);">Reason: Uncanny valley effect. Violates mental health design ethics by falsely implying AI replaces licensed clinical psychiatrists.</small></p>
+    </div>
+
+    <div class="card">
+      <p><span class="badge-rose">❌ REJECTED Concept 3:</span> <em>"Melting iridescent glass spheres floating in dark space"</em><br>
+      <small style="color: var(--muted);">Reason: Overused generic Dribbble trend. Zero semantic connection to latency benchmarks, accessibility, or Hick's law triage.</small></p>
+    </div>
+
+    <div class="card" style="border-color: var(--emerald);">
+      <p><span class="badge-emerald">✅ THE WINNER:</span> <strong>Real, unedited high-DPI screenshots of the actual build.</strong><br>
+      <small style="color: var(--muted);">Reason: In technical portfolio engineering, REAL UI PROOF always beats AI-generated illustrations.</small></p>
+    </div>
+
+    <h2>4. AI Fluency Evaluation Rubric</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Evaluation Rubric Item</th>
+          <th>Status</th>
+          <th>Verification Detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>One-line claim is single & memorable</td>
+          <td><span class="badge-emerald">✅ Pass</span></td>
+          <td>10 AI options generated, human-sharpened single sentence.</td>
+        </tr>
+        <tr>
+          <td>Ordered sections with named CTAs</td>
+          <td><span class="badge-emerald">✅ Pass</span></td>
+          <td>Complete 7-page content map laddering up to Week 1 hiring action.</td>
+        </tr>
+        <tr>
+          <td>Honest 'still need to gather' list</td>
+          <td><span class="badge-emerald">✅ Pass</span></td>
+          <td>Documented video captures and faculty testimonial in progress.</td>
+        </tr>
+        <tr>
+          <td>1–2 fonts & tight 3–4 color palette with hex codes</td>
+          <td><span class="badge-emerald">✅ Pass</span></td>
+          <td>Inter + Mono; #090D16, #F1F5F9, #6366F1, #F43F5E, #10B981.</td>
+        </tr>
+        <tr>
+          <td>Simple logo/favicon with 2-line style note</td>
+          <td><span class="badge-emerald">✅ Pass</span></td>
+          <td>Vector MG monogram created + style note recorded.</td>
+        </tr>
+        <tr>
+          <td>Real captures over AI stand-ins</td>
+          <td><span class="badge-emerald">✅ Pass</span></td>
+          <td>Real application captures used exclusively for project evidence.</td>
+        </tr>
+        <tr>
+          <td>Rejection note shows genuine human judgment</td>
+          <td><span class="badge-emerald">✅ Pass</span></td>
+          <td>Documented 3 rejected AI slop concepts with concrete rationales.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</body>
+</html>

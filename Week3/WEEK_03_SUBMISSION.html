@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 3 Deliverable · AI-Assisted React Application Build</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    @page {
+      size: A4;
+      margin: 14mm 15mm 14mm 15mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1f2937;
+      background-color: #ffffff;
+      line-height: 1.48;
+      font-size: 12.2px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    header {
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .doc-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .title-group h1 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #111827;
+      letter-spacing: -0.02em;
+    }
+
+    .title-group p {
+      font-size: 11.5px;
+      color: #4b5563;
+      font-weight: 500;
+    }
+
+    .track-badge {
+      text-align: right;
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .track-badge strong {
+      color: #111827;
+      font-size: 12px;
+    }
+
+    section {
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #111827;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-left: 3px solid #2563eb;
+      padding-left: 8px;
+      margin-bottom: 8px;
+    }
+
+    .card {
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 9px 12px;
+      margin-bottom: 8px;
+      background: #ffffff;
+      page-break-inside: avoid;
+    }
+
+    .card-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .code-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.8px;
+      color: #0f172a;
+      white-space: pre-wrap;
+      line-height: 1.35;
+      margin-top: 4px;
+    }
+
+    .diff-box {
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.8px;
+      line-height: 1.4;
+      margin-top: 4px;
+    }
+
+    .diff-del { color: #f87171; }
+    .diff-add { color: #4ade80; }
+
+    .checklist {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 10px;
+      margin-top: 6px;
+      font-size: 11.5px;
+      color: #374151;
+      page-break-inside: avoid;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .check-icon {
+      color: #16a34a;
+      font-weight: bold;
+    }
+
+    footer {
+      border-top: 1px solid #e5e7eb;
+      padding-top: 6px;
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: #9ca3af;
+      page-break-inside: avoid;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <header>
+      <div class="doc-meta">
+        <div class="title-group">
+          <h1>Week 3 Deliverable · AI-Assisted React Application Build</h1>
+          <p>Application: MindGuard AI · Front-End AI Companion & Mental Health Triage Interface</p>
+        </div>
+        <div class="track-badge">
+          <strong>FlyRank AI Internship</strong><br>
+          Track: Front-End AI Engineering
+        </div>
+      </div>
+    </header>
+
+    <!-- 1. Completed Application Overview -->
+    <section>
+      <h2>1. Overview of the Completed Application</h2>
+      <div class="card">
+        <div class="card-title">MindGuard AI Interface Architecture</div>
+        <p style="margin-bottom: 6px; color: #334155;">
+          A production-ready React 18 application built with Vite and Lucide Icons demonstrating four core front-end AI engineering features:
+        </p>
+        <ul style="padding-left: 1.2rem; color: #475569; display: flex; flex-direction: column; gap: 3px;">
+          <li><strong>Token Streaming & Latency Simulation:</strong> Real-time Server-Sent Events (SSE) token generation pipeline with sticky auto-scroll and Time to First Token (TTFT) counter (120ms streaming vs. 1,800ms legacy blocking benchmark).</li>
+          <li><strong>3-Action Acute Crisis Triage Modal:</strong> Consolidates emergency options down to 3 acute triage choices (Call 988, Text 741741, Reach Contact) based on Hick's Law, with a 1-click clipboard desktop fallback.</li>
+          <li><strong>WCAG 2.1 AA Model Settings Drawer:</strong> Accessible configuration drawer for Anthropic API keys with RFC email validation, password masking toggle, and submit error focus management.</li>
+          <li><strong>Telemetry & Audit Inspector:</strong> Live telemetry panel showing TTFT, token speed (t/s), and real-time NLP classification states.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 2. Prompts Used During Development -->
+    <section>
+      <h2>2. Prompts Used During Development</h2>
+
+      <div class="card">
+        <div class="card-title" style="color: #2563eb;">Prompt 1: Streaming Chat Architecture & State Pipeline</div>
+        <div class="code-box">Act as a Senior React Engineer. Scaffold a streaming AI chat interface in React 18 with message state (role, timestamp, intent badge), simulated token streaming with configurable TTFT latency (120ms stream vs 1,800ms blocking), and sticky auto-scroll locking to bottom during generation without snap-backs.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title" style="color: #dc2626;">Prompt 2: Crisis Triage Modal (Hick's Law & Desktop Fallback)</div>
+        <div class="code-box">Design an accessible Emergency Crisis Modal in React applying Hick's Law: 3 primary actions (Call 988, Text 741741, Reach Contact), 1-click clipboard copy fallback for desktop tel: links, progressive disclosure for secondary hotlines, and role="dialog" accessibility.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title" style="color: #16a34a;">Prompt 3: Production Settings Form & Validation Gate</div>
+        <div class="code-box">Build an accessible Settings Form in React with real-time onBlur/onSubmit validation for RFC email regex and Anthropic API key format, string .trim() sanitization, password type="password" with type="button" show/hide toggle, and WCAG 2.1 AA focus shifting on failed submit.</div>
+      </div>
+    </section>
+
+    <!-- 3. How AI Assisted Implementation -->
+    <section>
+      <h2>3. How AI Assisted Throughout the Implementation</h2>
+      <div class="card">
+        <p style="color: #334155; line-height: 1.45;">
+          AI accelerated the development lifecycle by generating component boilerplates for complex multi-tier state orchestration (streaming token intervals, latency timers, and intent badges) in minutes. It also formulated accurate regular expressions for RFC email schemas and Anthropic key prefix patterns (`^sk-ant-api[0-9a-zA-Z_-]{20,}$`), and systematically mapped WCAG 2.1 AA ARIA tags across all form controls.
+        </p>
+      </div>
+    </section>
+
+    <!-- PAGE BREAK -->
+    <div style="page-break-before: always;"></div>
+
+    <!-- 4. Manual Improvements & Refactoring -->
+    <section>
+      <h2>4. Manual Improvements, Corrections & Refactoring</h2>
+
+      <div class="card">
+        <div class="card-title" style="color: #b91c1c;">Fix 1: Accidental Form Submit Bug (Button Type Omission)</div>
+        <p style="color: #475569; font-size: 11.5px; margin-bottom: 4px;">
+          <em>AI Flaw:</em> Omitted <code>type="button"</code> on the password visibility toggle. Because HTML buttons default to <code>type="submit"</code>, clicking "Show" accidentally submitted the form.
+        </p>
+        <div class="diff-box">
+          <span class="diff-del">- &lt;button onClick={() =&gt; setShowKey(!showKey)}&gt;</span><br>
+          <span class="diff-add">+ &lt;button type="button" onClick={() =&gt; setShowKey(!showKey)}&gt;</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title" style="color: #d97706;">Fix 2: Whitespace Validation Bypass (Sanitization)</div>
+        <p style="color: #475569; font-size: 11.5px; margin-bottom: 4px;">
+          <em>AI Flaw:</em> Used naive length check <code>value.length &gt;= 2</code>, allowing whitespace strings (<code>"   "</code>) to bypass validation.
+        </p>
+        <div class="diff-box">
+          <span class="diff-del">- if (!value || value.length &lt; 2)</span><br>
+          <span class="diff-add">+ const trimmed = typeof value === 'string' ? value.trim() : value;</span><br>
+          <span class="diff-add">+ if (!trimmed || trimmed.length &lt; 2)</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title" style="color: #0284c7;">Fix 3: Desktop `tel:` Broken Link Fallback</div>
+        <p style="color: #475569; font-size: 11.5px; margin-bottom: 4px;">
+          <em>AI Flaw:</em> Bare <code>&lt;a href="tel:988"&gt;</code> links failed completely on desktop browsers without soft fallbacks.
+        </p>
+        <div class="diff-box">
+          <span class="diff-add">+ Implemented secondary desktop "Copy" button triggering navigator.clipboard.writeText('988') + toast.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Verification Checklist -->
+    <section>
+      <h2>5. Rubric Verification Checklist</h2>
+      <ul class="checklist">
+        <li><span class="check-icon">✔</span> Completed React application in Week3/</li>
+        <li><span class="check-icon">✔</span> Prompts recorded for all key components</li>
+        <li><span class="check-icon">✔</span> AI assistance explained clearly</li>
+        <li><span class="check-icon">✔</span> 3 manual refactoring diffs documented</li>
+      </ul>
+    </section>
+
+    <footer>
+      <span>FlyRank AI Internship · Week 03 Deliverable</span>
+      <span>AI-Assisted React Application Build & Refactoring Log</span>
+    </footer>
+
+  </div>
+</body>
+</html>

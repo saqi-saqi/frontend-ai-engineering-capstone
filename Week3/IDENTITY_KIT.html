@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Identity Kit · AI Fluency Week 3 (Muhammad Saqib Tariq)</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card: #0f172a;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --indigo: #6366f1;
+      --rose: #f43f5e;
+      --emerald: #10b981;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 26px;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 0;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .swatch {
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 12px;
+    }
+    .swatch-color {
+      height: 40px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .swatch-name {
+      font-weight: 600;
+      color: #fff;
+    }
+    .swatch-hex {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .type-sample {
+      background: rgba(2, 6, 23, 0.6);
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-top: 8px;
+    }
+    .logo-preview {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: rgba(2, 6, 23, 0.6);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .logo-badge {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #6366f1, #818cf8);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 20px;
+      color: #fff;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+    }
+    .note-box {
+      background: rgba(99, 102, 241, 0.08);
+      border-left: 4px solid var(--indigo);
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      font-size: 14px;
+      color: #e2e8f0;
+      font-style: italic;
+    }
+    .checklist {
+      list-style: none;
+      padding: 0;
+      font-size: 13px;
+    }
+    .checklist li {
+      padding: 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #e2e8f0;
+    }
+    .check-icon {
+      color: var(--emerald);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <h1>Visual Identity Kit</h1>
+    <div class="subtitle">AI Fluency Track · Week 3 Assignment: Decide Once · Student: Muhammad Saqib Tariq (04072213009)</div>
+
+    <!-- Palette -->
+    <div class="card">
+      <div class="section-title">1. Color Palette (Tight 4-Color Foundation)</div>
+      <p style="font-size: 13px; color: var(--muted); margin: 0 0 12px 0;">Calm, dark-glassmorphic palette designed so the work is the loudest thing on screen.</p>
+      
+      <div class="palette-grid">
+        <div class="swatch" style="background: #090d16;">
+          <div class="swatch-color" style="background: #090d16;"></div>
+          <div class="swatch-name">Background</div>
+          <div class="swatch-hex">#090D16</div>
+        </div>
+
+        <div class="swatch" style="background: #0f172a;">
+          <div class="swatch-color" style="background: #0f172a;"></div>
+          <div class="swatch-name">Card / Glass</div>
+          <div class="swatch-hex">#0F172A</div>
+        </div>
+
+        <div class="swatch" style="background: #1e293b;">
+          <div class="swatch-color" style="background: #f1f5f9;"></div>
+          <div class="swatch-name">Near-White Text</div>
+          <div class="swatch-hex">#F1F5F9</div>
+        </div>
+
+        <div class="swatch" style="background: #1e293b;">
+          <div class="swatch-color" style="background: #6366f1;"></div>
+          <div class="swatch-name">Main Accent</div>
+          <div class="swatch-hex">#6366F1</div>
+        </div>
+
+        <div class="swatch" style="background: #1e293b;">
+          <div class="swatch-color" style="background: #f43f5e;"></div>
+          <div class="swatch-name">Crisis Alert</div>
+          <div class="swatch-hex">#F43F5E</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Typography -->
+    <div class="card">
+      <div class="section-title">2. Typography Selection</div>
+      <div class="type-sample">
+        <div style="font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px;">Inter (Headings & UI Body)</div>
+        <p style="font-size: 13px; color: var(--muted); margin: 0;">Clean grotesque sans-serif with tall x-height for effortless mobile (375px) & desktop (1280px) legibility.</p>
+      </div>
+
+      <div class="type-sample" style="margin-top: 10px;">
+        <div style="font-family: 'Courier New', monospace; font-size: 15px; font-weight: 700; color: #818cf8; margin-bottom: 4px;">JetBrains Mono (Telemetry & Code)</div>
+        <p style="font-family: 'Courier New', monospace; font-size: 12px; color: var(--muted); margin: 0;">TTFT: 120ms | Throughput: 38.4 tokens/s | Latency: 8ms</p>
+      </div>
+    </div>
+
+    <!-- Logo / Favicon -->
+    <div class="card">
+      <div class="section-title">3. Logo & Favicon Monogram</div>
+      <div class="logo-preview">
+        <div class="logo-badge">MG</div>
+        <div>
+          <div style="font-weight: 700; font-size: 15px; color: #fff;">MindGuard Monogram</div>
+          <div style="font-size: 12px; color: var(--muted); margin-top: 2px;">SVG squircle favicon with indigo-violet gradient. Fast-loading and crisp at 16px, 32px, and 64px.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Style Note -->
+    <div class="card">
+      <div class="section-title">4. Two-Line Style Note</div>
+      <div class="note-box">
+        "Typography uses Inter with JetBrains Mono; palette is deep navy slate (#090D16) with crisp white text (#F1F5F9) and indigo (#6366F1) / rose (#F43F5E) accents. The mood is an engineering-grade dark cockpit: calm, high-contrast, and quiet so the live code proof is the loudest thing on the page."
+      </div>
+    </div>
+
+    <!-- Pass / Revise -->
+    <div class="card">
+      <div class="section-title">5. Pass / Revise Verification</div>
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span> <strong>One or two fonts:</strong> Inter & JetBrains Mono only.</li>
+        <li><span class="check-icon">✓</span> <strong>Tight palette with hex codes:</strong> #090D16, #0F172A, #F1F5F9, #6366F1, #F43F5E.</li>
+        <li><span class="check-icon">✓</span> <strong>Simple logo/favicon exists:</strong> Vector MG squircle monogram.</li>
+        <li><span class="check-icon">✓</span> <strong>Mood frames the work:</strong> The design acts as a quiet, disciplined frame for live code.</li>
+      </ul>
+    </div>
+
+  </div>
+</body>
+</html>

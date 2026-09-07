@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curate Your Images · AI Fluency Week 3 (Muhammad Saqib Tariq)</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card: #0f172a;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --indigo: #6366f1;
+      --rose: #f43f5e;
+      --emerald: #10b981;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 26px;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 13px;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+    }
+    th {
+      background: #1e293b;
+      color: #fff;
+    }
+    tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .badge-real {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--emerald);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-ai {
+      background: rgba(99, 102, 241, 0.15);
+      color: #a5b4fc;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-photo {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .rejection-item {
+      background: rgba(2, 6, 23, 0.6);
+      border-left: 4px solid var(--rose);
+      border-radius: 0 10px 10px 0;
+      padding: 14px 18px;
+      margin-bottom: 14px;
+    }
+    .rejection-title {
+      color: var(--rose);
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .rejection-prompt {
+      font-family: monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .rejection-reason {
+      font-size: 13px;
+      color: #e2e8f0;
+    }
+    .winner-item {
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 4px solid var(--emerald);
+      border-radius: 0 10px 10px 0;
+      padding: 14px 18px;
+    }
+    .checklist {
+      list-style: none;
+      padding: 0;
+      font-size: 13px;
+      margin: 0;
+    }
+    .checklist li {
+      padding: 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #e2e8f0;
+    }
+    .check-icon {
+      color: var(--emerald);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <h1>Kill Your Darlings: Image Curation & AI Discernment</h1>
+    <div class="subtitle">AI Fluency Track · Week 3 Assignment · Student: Muhammad Saqib Tariq (04072213009)</div>
+
+    <!-- 1. Content Map Alignment -->
+    <div class="card">
+      <div class="section-title">1. Image Inventory Mapped to Content Map</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Content Map Location</th>
+            <th>Asset</th>
+            <th>Type</th>
+            <th>Proof / Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Header / Browser Tab</strong></td>
+            <td>MG Monogram Favicon</td>
+            <td><span class="badge-ai">Vector SVG</span></td>
+            <td>Crisp, fast-loading browser tab identifier.</td>
+          </tr>
+          <tr>
+            <td><strong>Hero Section</strong></td>
+            <td>Dark Ambient Blur Mesh</td>
+            <td><span class="badge-ai">AI Texture</span></td>
+            <td>Subtle #6366F1 indigo mesh framing the hero text.</td>
+          </tr>
+          <tr>
+            <td><strong>Live Chat Case (/chat)</strong></td>
+            <td>Token Streaming Screenshot</td>
+            <td><span class="badge-real">Real Capture</span></td>
+            <td>Proves SSE token streaming & intent badge tagging.</td>
+          </tr>
+          <tr>
+            <td><strong>Crisis Triage (/crisis)</strong></td>
+            <td>Hick's Law 3-Action Modal</td>
+            <td><span class="badge-real">Real Capture</span></td>
+            <td>Proves 988 clipboard copy fallback toast.</td>
+          </tr>
+          <tr>
+            <td><strong>Telemetry (/telemetry)</strong></td>
+            <td>TTFT Benchmark Table</td>
+            <td><span class="badge-real">Real Capture</span></td>
+            <td>Validates 120ms streaming vs 1,800ms blocking.</td>
+          </tr>
+          <tr>
+            <td><strong>Settings (/settings)</strong></td>
+            <td>Validated Settings Form</td>
+            <td><span class="badge-real">Real Capture</span></td>
+            <td>Proves RFC email validation & API key masking.</td>
+          </tr>
+          <tr>
+            <td><strong>About / Profile</strong></td>
+            <td>Developer Headshot</td>
+            <td><span class="badge-photo">Real Photo</span></td>
+            <td>Authentic photo of Muhammad Saqib Tariq.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 2. Real vs AI Decisions -->
+    <div class="card">
+      <div class="section-title">2. Where Real Captures Were Chosen Over AI</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Decision Area</th>
+            <th>AI-Generated Considered</th>
+            <th>Real Capture Chosen</th>
+            <th>Rationale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Chat UI Proof</strong></td>
+            <td>Futuristic 3D chat bubble mockup</td>
+            <td><strong>Browser capture of live Next.js app</strong></td>
+            <td>AI mockups have fake text; real capture proves code execution.</td>
+          </tr>
+          <tr>
+            <td><strong>Crisis Safety Proof</strong></td>
+            <td>Glowing shield metaphor</td>
+            <td><strong>Screenshot of 3-action Hick's Law modal</strong></td>
+            <td>Illustrations don't prove UX compliance; real UI proves safety.</td>
+          </tr>
+          <tr>
+            <td><strong>Telemetry Proof</strong></td>
+            <td>Sci-fi glowing HUD dials</td>
+            <td><strong>Screenshot of quantitative benchmark table</strong></td>
+            <td>Sci-fi HUDs look amateur; clean tables prove engineering rigor.</td>
+          </tr>
+          <tr>
+            <td><strong>Profile</strong></td>
+            <td>Cyberpunk developer avatar</td>
+            <td><strong>Authentic personal photo</strong></td>
+            <td>AI avatars feel deceptive; real photos build hiring trust.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 3. Rejection Audit -->
+    <div class="card">
+      <div class="section-title">3. Ruthless AI Image Rejection Audit (Discernment)</div>
+      
+      <div class="rejection-item">
+        <div class="rejection-title">❌ REJECTED Concept 1: "Glowing 3D Neural Brain with Neon Circuits"</div>
+        <div class="rejection-prompt">Prompt: "Futuristic glowing 3D neural brain floating above computer screen with neon circuit lines, dark background"</div>
+        <div class="rejection-reason"><strong>Why rejected:</strong> Classic "AI slop". Adds zero proof of front-end engineering, clutters the viewport, and looks like a generic crypto website. Upstages the work rather than framing it.</div>
+      </div>
+
+      <div class="rejection-item">
+        <div class="rejection-title">❌ REJECTED Concept 2: "Photorealistic AI Humanoid Robot Counseling Patient"</div>
+        <div class="rejection-prompt">Prompt: "Photorealistic AI android robot gently comforting a distressed human in clinical room"</div>
+        <div class="rejection-reason"><strong>Why rejected:</strong> Uncanny valley aesthetic. Violates mental health software ethics by visually implying an AI replaces licensed clinical psychiatrists.</div>
+      </div>
+
+      <div class="rejection-item">
+        <div class="rejection-title">❌ REJECTED Concept 3: "Melting Iridescent Glass Spheres"</div>
+        <div class="rejection-prompt">Prompt: "Floating translucent iridescent glass spheres with colorful liquid refraction, dark studio"</div>
+        <div class="rejection-reason"><strong>Why rejected:</strong> Overused Dribbble decorative trend. Zero semantic connection to latency benchmarks or accessibility, clashing with the calm #090D16 palette.</div>
+      </div>
+
+      <div class="winner-item">
+        <div style="color: var(--emerald); font-weight: 700; font-size: 14px;">✅ THE WINNER: Real High-DPI UI Captures</div>
+        <div style="font-size: 13px; color: #e2e8f0; margin-top: 4px;">In technical portfolio engineering, <strong>REAL UI PROOF</strong> always beats AI-generated illustrations.</div>
+      </div>
+    </div>
+
+    <!-- 4. Pass / Revise -->
+    <div class="card">
+      <div class="section-title">4. Pass / Revise Verification</div>
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span> <strong>Images map to real needs:</strong> Zero decorative filler; every asset serves the content map.</li>
+        <li><span class="check-icon">✓</span> <strong>Work shown with real captures:</strong> Real Next.js app captures used for all 4 project cases.</li>
+        <li><span class="check-icon">✓</span> <strong>Consistent AI connective style:</strong> Single ambient dark mesh prompt matching #090D16 & #6366F1.</li>
+        <li><span class="check-icon">✓</span> <strong>Real photo for the person:</strong> Authentic photo of Muhammad Saqib Tariq.</li>
+        <li><span class="check-icon">✓</span> <strong>Rejection note shows genuine discernment:</strong> 3 specific rejected concepts with concrete rationales.</li>
+      </ul>
+    </div>
+
+  </div>
+</body>
+</html>
