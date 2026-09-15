@@ -8,7 +8,8 @@ import {
   TOOL_NAMES,
   executeTriageAssessment,
   executeEmergencyEscalation,
-} from '@/lib/tools/triage-tool';
+} from '../../tools/triage-tool';
+import { ToolPart } from '../../types';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -35,17 +36,9 @@ export async function POST(req: NextRequest) {
 
     const clientSignal = req.signal;
 
-    // Detection for tool triggers
-    const isErrorTest =
-      userQuery.includes('test-error') ||
-      userQuery.includes('test error') ||
-      userQuery.includes('simulate failure');
-
-    const isEscalationConfirmation =
-      userQuery.includes('988') ||
-      userQuery.includes('emergency counselor') ||
-      userQuery.includes('dispatch');
-
+    // Determine whether this prompt triggers a server tool call
+    const isErrorTest = userQuery.includes('test-error') || userQuery.includes('test error') || userQuery.includes('fail');
+    const isEscalationConfirmation = userQuery.includes('988') || userQuery.includes('emergency counselor') || userQuery.includes('dispatch');
     const isAssessmentRequest =
       userQuery.includes('triage') ||
       userQuery.includes('assessment') ||
@@ -66,14 +59,15 @@ export async function POST(req: NextRequest) {
         };
 
         try {
-          // 1. Tool execution lifecycle
+          // 1. If tool is triggered, emit the 4 lifecycle states
           if (isAssessmentRequest || isEscalationConfirmation) {
             const toolCallId = `call-${Date.now()}`;
             const toolName = isEscalationConfirmation
               ? TOOL_NAMES.CONFIRM_EMERGENCY_ESCALATION
               : TOOL_NAMES.ASSESS_CRISIS_RISK;
 
-            // State 1: Input Streaming (Model generating tool call arguments)
+            // State 1: Input Streaming
+            // Simulates model generating the tool call parameters token by token
             emitPart('tool_call_start', {
               toolCallId,
               toolName,
@@ -88,7 +82,8 @@ export async function POST(req: NextRequest) {
               return;
             }
 
-            // State 2: Input Available (Arguments validated and ready for execution)
+            // State 2: Input Available
+            // Completed parameters parsed and validated against Zod schema
             const args = isEscalationConfirmation
               ? {
                   sessionContext: 'User requested direct emergency counselor escalation during distress.',
@@ -131,12 +126,13 @@ export async function POST(req: NextRequest) {
             // Execute the tool logic
             try {
               if (isEscalationConfirmation) {
+                // For confirmation tool, present confirmation state (output-available with prompt)
                 emitPart('tool_result', {
                   toolCallId,
                   toolName,
                   state: 'output-available',
                   args,
-                  result: null, // Pending confirmation by user in UI
+                  result: null, // pending user confirmation
                   timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 });
               } else {
@@ -153,7 +149,7 @@ export async function POST(req: NextRequest) {
                 });
               }
             } catch (toolErr: any) {
-              // State 4: Output Error (Designed error recovery state, not a crash!)
+              // State 4: Output Error (Designed error state, not a crash!)
               emitPart('tool_error', {
                 toolCallId,
                 toolName,
@@ -164,10 +160,10 @@ export async function POST(req: NextRequest) {
               });
             }
 
-            await new Promise((r) => setTimeout(r, 250));
+            await new Promise((r) => setTimeout(r, 300));
           }
 
-          // 2. Stream conversational text guidance alongside tool outputs
+          // 2. Stream Conversational Text Guidance alongside tool parts
           let textResponse = '';
           if (isErrorTest) {
             textResponse =

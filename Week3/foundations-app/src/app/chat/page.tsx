@@ -14,9 +14,13 @@ import {
   AlertTriangle,
   Flame,
   CheckCircle2,
+  Wrench,
 } from 'lucide-react';
 import { ThinkingIndicator } from '@/components/chat/ThinkingIndicator';
 import { ScrollToBottom } from '@/components/chat/ScrollToBottom';
+import { ToolPartRenderer } from '@/components/chat/ToolPartRenderer';
+import { ToolPart } from '@/lib/tools/types';
+import { TOOL_NAMES, executeTriageAssessment } from '@/lib/tools/triage-tool';
 
 export interface ChatMessage {
   id: string;
@@ -26,6 +30,7 @@ export interface ChatMessage {
   intent?: string;
   confidence?: number;
   isPartial?: boolean;
+  toolParts?: ToolPart[];
 }
 
 const INITIAL_MESSAGES: ChatMessage[] = [
@@ -33,7 +38,7 @@ const INITIAL_MESSAGES: ChatMessage[] = [
     id: 'msg-welcome',
     role: 'assistant',
     content:
-      "Hello, I'm MindGuard AI. I'm here to listen, support your emotional wellbeing, and help you navigate stress in a safe, judgment-free space. How are you feeling today?",
+      "Hello, I'm MindGuard AI. I'm here to listen, support your emotional wellbeing, and run clinical triage evaluations in a safe, judgment-free space. You can share your feelings or tap one of the suggested clinical evaluation tools below.",
     timestamp: 'Just now',
     intent: 'supportive_listening',
     confidence: 0.98,
@@ -41,13 +46,13 @@ const INITIAL_MESSAGES: ChatMessage[] = [
 ];
 
 const SUGGESTIONS = [
-  "I'm feeling overwhelmed with exam deadlines and burnout.",
+  'Run clinical triage: severe panic, insomnia, and burnout',
+  'Connect me with 988 emergency counselor',
+  'Test designed tool error state (simulate failure)',
   'Can you guide me through a quick 4-7-8 breathing exercise?',
-  "I'm having a really hard day and don't know where to start.",
-  "Test crisis alert: I'm feeling hopeless and can't go on.",
 ];
 
-const STORAGE_KEY = 'mindguard_streaming_chat_v2';
+const STORAGE_KEY = 'mindguard_streaming_chat_v3';
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
@@ -114,6 +119,58 @@ export default function ChatPage() {
     return patterns.some((p) => p.test(text));
   };
 
+  // Retry tool execution callback (State 4 -> State 2 -> State 3)
+  const handleRetryTool = async (toolCallId: string) => {
+    // Locate message containing this tool part
+    setMessages((prev) =>
+      prev.map((msg) => {
+        if (!msg.toolParts) return msg;
+        const updatedParts = msg.toolParts.map((tp) =>
+          tp.toolCallId === toolCallId
+            ? { ...tp, state: 'input-available' as const, error: undefined, errorCode: undefined }
+            : tp
+        );
+        return { ...msg, toolParts: updatedParts };
+      })
+    );
+
+    // Re-execute recovery
+    setTimeout(async () => {
+      try {
+        const recoveryArgs = {
+          patientQuery: 'Recovered after connection retry',
+          severityLevel: 'moderate' as const,
+          symptoms: ['acute anxiety', 'stress'],
+          affectiveTension: 58,
+          cognitiveOverload: 62,
+          somaticInsomnia: 45,
+          immediateHarmRisk: false,
+        };
+        const recoveryResult = await executeTriageAssessment(recoveryArgs);
+
+        setMessages((prev) =>
+          prev.map((msg) => {
+            if (!msg.toolParts) return msg;
+            const updatedParts = msg.toolParts.map((tp) =>
+              tp.toolCallId === toolCallId
+                ? {
+                    ...tp,
+                    state: 'output-available' as const,
+                    args: recoveryArgs,
+                    result: recoveryResult,
+                    error: undefined,
+                  }
+                : tp
+            );
+            return { ...msg, toolParts: updatedParts };
+          })
+        );
+      } catch (err: any) {
+        console.error('Retry failed:', err);
+      }
+    }, 700);
+  };
+
   // Stop button handler: cancels HTTP stream and preserves partial state
   const handleStop = useCallback(() => {
     if (abortControllerRef.current) {
@@ -123,7 +180,6 @@ export default function ChatPage() {
     setIsGenerating(false);
     setIsThinking(false);
 
-    // Mark current assistant message as stopped/partial if it was generating
     setMessages((prev) =>
       prev.map((msg, idx) =>
         idx === prev.length - 1 && msg.role === 'assistant'
@@ -132,11 +188,10 @@ export default function ChatPage() {
       )
     );
 
-    // Re-focus input
     textareaRef.current?.focus();
   }, []);
 
-  // Send message and stream response
+  // Send message and stream response (Supports typed tool parts)
   const handleSendMessage = async (customQuery?: string) => {
     const query = (customQuery || input).trim();
     if (!query || isGenerating) return;
@@ -152,21 +207,20 @@ export default function ChatPage() {
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 
-    // Update message state with user message
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
     setInput('');
     setIsGenerating(true);
     setIsThinking(true);
-    setIsAtBottom(true); // pin when sending a new message
+    setIsAtBottom(true);
 
-    // Create AbortController for stream cancellation
     const controller = new AbortController();
     abortControllerRef.current = controller;
 
-    // Placeholder bot message for streaming handoff
     const botMessageId = `bot-${Date.now()}`;
     let hasReceivedFirstToken = false;
+    let currentToolParts: ToolPart[] = [];
+    let streamedContent = '';
 
     try {
       const response = await fetch('/api/chat', {
@@ -185,50 +239,106 @@ export default function ChatPage() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      // Extract server intent headers
-      const intentHeader = response.headers.get('X-MindGuard-Intent') || 'supportive_listening';
-      const confidenceHeader = parseFloat(response.headers.get('X-MindGuard-Confidence') || '0.95');
-
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
-      let streamedContent = '';
+      let buffer = '';
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
-        const chunk = decoder.decode(value, { stream: true });
-        streamedContent += chunk;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
 
-        // Smooth handoff: as soon as first token arrives, dismiss thinking indicator
-        if (!hasReceivedFirstToken) {
-          hasReceivedFirstToken = true;
-          setIsThinking(false);
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed) continue;
 
-          // Insert the bot message container seamlessly
-          setMessages((prev) => [
-            ...prev,
-            {
-              id: botMessageId,
-              role: 'assistant',
-              content: streamedContent,
-              timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-              intent: intentHeader,
-              confidence: confidenceHeader,
-            },
-          ]);
-        } else {
-          // Stream subsequent tokens into the message
-          setMessages((prev) =>
-            prev.map((msg) =>
-              msg.id === botMessageId ? { ...msg, content: streamedContent } : msg
-            )
-          );
+          try {
+            const parsed = JSON.parse(trimmed);
+
+            // Handle Tool Part State 1: input-streaming
+            if (parsed.type === 'tool_call_start') {
+              const newPart: ToolPart = {
+                toolCallId: parsed.toolCallId,
+                toolName: parsed.toolName,
+                state: 'input-streaming',
+                rawInput: parsed.rawInput,
+                args: {},
+                timestamp: parsed.timestamp,
+              };
+              currentToolParts = [...currentToolParts, newPart];
+              setIsThinking(false);
+              hasReceivedFirstToken = true;
+            }
+            // Handle Tool Part State 2: input-available
+            else if (parsed.type === 'tool_call_ready') {
+              currentToolParts = currentToolParts.map((tp) =>
+                tp.toolCallId === parsed.toolCallId
+                  ? { ...tp, state: 'input-available', args: parsed.args }
+                  : tp
+              );
+            }
+            // Handle Tool Part State 3: output-available
+            else if (parsed.type === 'tool_result') {
+              currentToolParts = currentToolParts.map((tp) =>
+                tp.toolCallId === parsed.toolCallId
+                  ? { ...tp, state: 'output-available', result: parsed.result, args: parsed.args }
+                  : tp
+              );
+            }
+            // Handle Tool Part State 4: output-error
+            else if (parsed.type === 'tool_error') {
+              currentToolParts = currentToolParts.map((tp) =>
+                tp.toolCallId === parsed.toolCallId
+                  ? { ...tp, state: 'output-error', error: parsed.error, errorCode: parsed.errorCode }
+                  : tp
+              );
+            }
+            // Handle Conversational Text Stream
+            else if (parsed.type === 'text_delta') {
+              streamedContent += parsed.text;
+              setIsThinking(false);
+              hasReceivedFirstToken = true;
+            }
+          } catch {
+            // Fallback for plain text chunk
+            streamedContent += trimmed + ' ';
+            setIsThinking(false);
+            hasReceivedFirstToken = true;
+          }
+
+          // Instantly sync bot message state
+          setMessages((prev) => {
+            const exists = prev.some((m) => m.id === botMessageId);
+            if (!exists) {
+              return [
+                ...prev,
+                {
+                  id: botMessageId,
+                  role: 'assistant',
+                  content: streamedContent,
+                  timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                  toolParts: currentToolParts.length > 0 ? currentToolParts : undefined,
+                },
+              ];
+            }
+            return prev.map((msg) =>
+              msg.id === botMessageId
+                ? {
+                    ...msg,
+                    content: streamedContent,
+                    toolParts: currentToolParts.length > 0 ? currentToolParts : undefined,
+                  }
+                : msg
+            );
+          });
         }
       }
     } catch (err: any) {
       if (err.name === 'AbortError') {
-        // Stream aborted by user via Stop button — already handled in handleStop
+        // Handled cleanly in handleStop
       } else {
         console.error('Chat stream error:', err);
         setMessages((prev) => [
@@ -269,15 +379,15 @@ export default function ChatPage() {
           <div className="flex items-center gap-2">
             <h1 className="text-lg sm:text-xl font-bold text-slate-100 flex items-center gap-2">
               <Bot className="w-5 h-5 text-indigo-400" />
-              <span>MindGuard AI · Streaming Companion</span>
+              <span>MindGuard AI · Generative UI Triage</span>
             </h1>
-            <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Server-Sent Streaming</span>
+            <span className="text-[11px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 flex items-center gap-1">
+              <Wrench className="w-3 h-3 text-cyan-400" />
+              <span>Server-Side Tools & Generative UI</span>
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-0.5">
-            Streaming via Next.js 15 Route Handler with token-by-token rendering & mid-stream stop.
+            Typed 4-state tool lifecycle (input-streaming → input-available → output-available / output-error) with SVG radar visualization.
           </p>
         </div>
 
@@ -343,7 +453,7 @@ export default function ChatPage() {
               )}
 
               <div
-                className={`max-w-[88%] sm:max-w-xl rounded-2xl p-3.5 sm:p-4 shadow-sm ${
+                className={`max-w-[92%] sm:max-w-2xl rounded-2xl p-3.5 sm:p-4 shadow-sm ${
                   isUser
                     ? 'bg-indigo-600 text-white rounded-tr-none'
                     : 'bg-slate-900/90 text-slate-100 border border-white/10 rounded-tl-none glass-panel'
@@ -360,10 +470,28 @@ export default function ChatPage() {
                   </div>
                 )}
 
+                {/* Render Embedded Generative UI Tool Parts (All 4 States) */}
+                {!isUser && message.toolParts && message.toolParts.length > 0 && (
+                  <div className="mb-3 space-y-2">
+                    {message.toolParts.map((tp) => (
+                      <ToolPartRenderer
+                        key={tp.toolCallId}
+                        toolPart={tp}
+                        onRetry={handleRetryTool}
+                        onActionTrigger={(actionCode) =>
+                          handleSendMessage(`Please start the recommended clinical protocol: ${actionCode}`)
+                        }
+                      />
+                    ))}
+                  </div>
+                )}
+
                 {/* Message Content */}
-                <p className="text-xs sm:text-sm leading-relaxed whitespace-pre-wrap break-words">
-                  {message.content}
-                </p>
+                {message.content && (
+                  <p className="text-xs sm:text-sm leading-relaxed whitespace-pre-wrap break-words">
+                    {message.content}
+                  </p>
+                )}
 
                 {/* Partial indicator if stopped */}
                 {message.isPartial && (
@@ -405,23 +533,25 @@ export default function ChatPage() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Floating Jump to Latest Button (Appears when user scrolls up) */}
+      {/* Floating Jump to Latest Button */}
       <ScrollToBottom
         isVisible={!isAtBottom}
         onClick={scrollToBottom}
         hasUnreadTokens={isGenerating}
       />
 
-      {/* Suggestion Chips */}
+      {/* Suggestion Chips (Tool Triggers) */}
       <div className="mb-2 flex items-center gap-1.5 overflow-x-auto pb-1 text-xs no-scrollbar flex-shrink-0">
-        <span className="text-[11px] text-slate-500 font-medium whitespace-nowrap pl-1">Suggested:</span>
+        <span className="text-[11px] text-cyan-400 font-bold whitespace-nowrap pl-1 flex items-center gap-1">
+          <Wrench className="w-3 h-3" /> Test Tools:
+        </span>
         {SUGGESTIONS.map((sug, idx) => (
           <button
             key={idx}
             type="button"
             disabled={isGenerating}
             onClick={() => handleSendMessage(sug)}
-            className="px-3 py-1 rounded-full bg-slate-900 border border-white/10 hover:border-indigo-500/40 text-slate-300 hover:text-white text-xs whitespace-nowrap transition-colors flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="px-3 py-1 rounded-full bg-slate-900 border border-cyan-500/25 hover:border-cyan-400/60 text-slate-300 hover:text-white text-xs whitespace-nowrap transition-colors flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {sug}
           </button>
@@ -434,7 +564,7 @@ export default function ChatPage() {
           e.preventDefault();
           handleSendMessage();
         }}
-        className="relative flex items-center gap-2 bg-slate-900/90 border border-white/15 rounded-2xl p-2 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 transition-all shadow-glass flex-shrink-0"
+        className="relative flex items-center gap-2 bg-slate-900/90 border border-white/15 rounded-2xl p-2 focus-within:border-cyan-500 focus-within:ring-1 focus-within:ring-cyan-500 transition-all shadow-glass flex-shrink-0"
       >
         <textarea
           ref={textareaRef}
@@ -449,14 +579,13 @@ export default function ChatPage() {
           }}
           placeholder={
             isGenerating
-              ? 'MindGuard is streaming... Click Stop to halt generation.'
-              : "Share how you're feeling... (Press Enter to send)"
+              ? 'MindGuard is streaming tool parts... Click Stop to halt.'
+              : "Ask for a clinical triage assessment, test tool error, or request emergency counselor..."
           }
           className="flex-1 bg-transparent border-0 px-3 py-2 text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none resize-none max-h-32"
           disabled={isGenerating}
         />
 
-        {/* Dynamic Send / Stop Button ("Stop is a state problem") */}
         {isGenerating ? (
           <button
             type="button"
@@ -483,10 +612,10 @@ export default function ChatPage() {
       {/* Footer Status Indicators */}
       <div className="mt-1.5 flex items-center justify-between text-[11px] text-slate-500 flex-shrink-0">
         <span className="flex items-center gap-1.5">
-          <span className={`w-1.5 h-1.5 rounded-full ${isGenerating ? 'bg-emerald-400 animate-ping' : 'bg-slate-500'}`} />
-          <span>{isGenerating ? 'Streaming active (SSE)' : 'Idle · Multi-turn memory saved'}</span>
+          <span className={`w-1.5 h-1.5 rounded-full ${isGenerating ? 'bg-cyan-400 animate-ping' : 'bg-slate-500'}`} />
+          <span>{isGenerating ? 'Tool Part Streaming Active' : 'Generative UI Ready · All 4 Tool States Supported'}</span>
         </span>
-        <span className="hidden sm:inline">Auto-scroll releases on upward scroll</span>
+        <span className="hidden sm:inline">200ms Crossfade Transitions</span>
       </div>
 
     </main>

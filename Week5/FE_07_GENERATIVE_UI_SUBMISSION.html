@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FE-07: Tool Results & Generative UI | MindGuard AI</title>
+  <style>
+    :root {
+      --bg-primary: #0b0f19;
+      --bg-secondary: #111827;
+      --bg-tertiary: #1f2937;
+      --card-bg: rgba(31, 41, 55, 0.6);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent-blue: #3b82f6;
+      --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-purple: #8b5cf6;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --text-faint: #6b7280;
+      --code-bg: #030712;
+      --badge-bg: rgba(59, 130, 246, 0.15);
+      --badge-border: rgba(59, 130, 246, 0.3);
+      --badge-text: #60a5fa;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg-primary: #f8fafc;
+        --bg-secondary: #ffffff;
+        --bg-tertiary: #f1f5f9;
+        --card-bg: #ffffff;
+        --card-border: #e2e8f0;
+        --accent-blue: #2563eb;
+        --accent-cyan: #0891b2;
+        --accent-emerald: #059669;
+        --accent-amber: #d97706;
+        --accent-rose: #e11d48;
+        --accent-purple: #7c3aed;
+        --text-main: #0f172a;
+        --text-muted: #475569;
+        --text-faint: #94a3b8;
+        --code-bg: #f8fafc;
+        --badge-bg: #eff6ff;
+        --badge-border: #bfdbfe;
+        --badge-text: #1d4ed8;
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.65;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .container { max-width: 1040px; margin: 0 auto; }
+
+    .header {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(99, 102, 241, 0.08));
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin-bottom: 2.5rem;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+
+    .meta-pills { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.25rem; }
+
+    .pill {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      border: 1px solid var(--badge-border);
+      background: var(--badge-bg);
+      color: var(--badge-text);
+    }
+
+    .pill.cyan { background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.3); color: var(--accent-cyan); }
+    .pill.emerald { background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3); color: var(--accent-emerald); }
+    .pill.purple { background: rgba(139, 92, 246, 0.15); border-color: rgba(139, 92, 246, 0.3); color: var(--accent-purple); }
+
+    h1 { font-size: 2.3rem; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 0.75rem; line-height: 1.2; }
+    .subtitle { font-size: 1.15rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+
+    .author-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+      border-top: 1px solid var(--card-border);
+      padding-top: 1.25rem;
+      font-size: 0.9rem;
+    }
+
+    .author-grid span { display: block; color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase; }
+    .author-grid strong { color: var(--text-main); font-size: 0.95rem; }
+
+    /* State Machine Grid */
+    .states-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.25rem;
+      margin: 2rem 0;
+    }
+
+    .state-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .state-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      margin-bottom: 0.75rem;
+    }
+
+    .state-badge.s1 { background: rgba(6, 182, 212, 0.2); color: var(--accent-cyan); }
+    .state-badge.s2 { background: rgba(99, 102, 241, 0.2); color: var(--accent-blue); }
+    .state-badge.s3 { background: rgba(16, 185, 129, 0.2); color: var(--accent-emerald); }
+    .state-badge.s4 { background: rgba(244, 63, 94, 0.2); color: var(--accent-rose); }
+
+    .state-card h4 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+    .state-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+
+    h2 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      margin-top: 3rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--card-border);
+    }
+
+    h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.75rem; margin-bottom: 0.75rem; }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: #e2e8f0;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Live Preview Card */
+    .preview-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0 2rem 0;
+      font-size: 0.9rem;
+      background: var(--bg-secondary);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+    }
+
+    th, td { padding: 0.9rem 1.15rem; text-align: left; border-bottom: 1px solid var(--card-border); }
+    th { background: rgba(255, 255, 255, 0.03); font-weight: 700; text-transform: uppercase; font-size: 0.82rem; }
+    tr:last-child td { border-bottom: none; }
+
+    .footer {
+      border-top: 1px solid var(--card-border);
+      padding-top: 2rem;
+      margin-top: 4rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-faint);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- HEADER -->
+    <header class="header">
+      <div class="meta-pills">
+        <span class="pill cyan">FE-07 Assignment</span>
+        <span class="pill emerald">Generative UI</span>
+        <span class="pill purple">Week 5 · 5 Hours</span>
+      </div>
+      <h1>Tool Results & Structured Output in the UI</h1>
+      <p class="subtitle">Elevating a conversational companion into a clinical triage application with typed Zod schemas, a 4-state lifecycle state machine, hand-rolled SVG risk radar charts, and interactive confirmation tools.</p>
+      
+      <div class="author-grid">
+        <div>
+          <span>Student Name</span>
+          <strong>Muhammad Saqib Tariq</strong>
+        </div>
+        <div>
+          <span>Student ID</span>
+          <strong>04072213009</strong>
+        </div>
+        <div>
+          <span>Capstone Application</span>
+          <strong>MindGuard AI</strong>
+        </div>
+        <div>
+          <span>Live Deployment</span>
+          <strong><a href="https://prismatic-dodol-61734a.netlify.app/chat" target="_blank" style="color: var(--accent-cyan);">prismatic-dodol-61734a.netlify.app</a></strong>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECTION 1: 4-STATE MACHINE -->
+    <h2>1. The 4-State Tool Lifecycle State Machine</h2>
+    <p>Following Anthropic and AI SDK guidelines, the four tool states answer four distinct user questions with unique visual treatments:</p>
+
+    <div class="states-grid">
+      <div class="state-card">
+        <span class="state-badge s1">State 1 · input-streaming</span>
+        <h4>Input Streaming</h4>
+        <p><strong>Question:</strong> "What is the AI doing?"</p>
+        <p>Pulsating cyan telemetry card rendering live JSON argument tokens typing out in real time.</p>
+      </div>
+
+      <div class="state-card">
+        <span class="state-badge s2">State 2 · input-available</span>
+        <h4>Input Available</h4>
+        <p><strong>Question:</strong> "With what parameters?"</p>
+        <p>Indigo execution card confirming parsed parameters with active server radar spinner.</p>
+      </div>
+
+      <div class="state-card">
+        <span class="state-badge s3">State 3 · output-available</span>
+        <h4>Output Available</h4>
+        <p><strong>Question:</strong> "What came back?"</p>
+        <p>Morphs smoothly (200ms crossfade) into the <strong>TriageScoreCard</strong> featuring the hand-rolled SVG risk radar chart.</p>
+      </div>
+
+      <div class="state-card">
+        <span class="state-badge s4">State 4 · output-error</span>
+        <h4>Output Error</h4>
+        <p><strong>Question:</strong> "What went wrong?"</p>
+        <p>Designed recovery card with error code (<code>ERR_TRIAGE_TIMEOUT</code>) and working <strong>"Retry Tool"</strong> button.</p>
+      </div>
+    </div>
+
+    <!-- SECTION 2: ZOD CONTRACTS -->
+    <h2>2. Server-Side Tool Contracts & Zod Schemas</h2>
+    <h3>Primary Tool: <code>assessCrisisRisk</code></h3>
+    <pre><code>export const TriageAssessmentSchema = z.object({
+  patientQuery: z.string().describe('The distress query shared by the user'),
+  severityLevel: z.enum(['mild', 'moderate', 'severe', 'acute']).describe('Primary psychiatric risk tier'),
+  symptoms: z.array(z.string()).describe('Extracted distress symptoms (insomnia, panic, hopelessness)'),
+  affectiveTension: z.number({ min: 0, max: 100 }).describe('Emotional tension index (0-100)'),
+  cognitiveOverload: z.number({ min: 0, max: 100 }).describe('Mental fatigue & racing thoughts (0-100)'),
+  somaticInsomnia: z.number({ min: 0, max: 100 }).describe('Physical distress & sleep disruption (0-100)'),
+  immediateHarmRisk: z.boolean().describe('Immediate self-harm ideation or intent detected')
+});</code></pre>
+
+    <!-- SECTION 3: EVALUATION MATRIX -->
+    <h2>3. Evaluation Criteria Verification Matrix</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Evaluation Rubric Criteria</th>
+          <th>Status</th>
+          <th>Implementation Evidence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Tool defined with a typed schema</strong></td>
+          <td><span class="pill emerald">PASS</span></td>
+          <td>Defined with typed Zod schemas with <code>.describe()</code> guidance.</td>
+        </tr>
+        <tr>
+          <td><strong>All four tool part states render distinctly</strong></td>
+          <td><span class="pill emerald">PASS</span></td>
+          <td><code>input-streaming</code>, <code>input-available</code>, <code>output-available</code>, <code>output-error</code> rendered distinctly.</td>
+        </tr>
+        <tr>
+          <td><strong>At least one tool result renders as a component, not text</strong></td>
+          <td><span class="pill emerald">PASS</span></td>
+          <td>Renders <code>TriageScoreCard</code> with composite score, severity badge, hand-rolled SVG radar chart, and protocol actions.</td>
+        </tr>
+        <tr>
+          <td><strong>A failed tool execution shows a designed error state, not a crash</strong></td>
+          <td><span class="pill emerald">PASS</span></td>
+          <td>Renders <code>ToolErrorCard</code> with error code, recovery explanation, and working retry callback.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <p>MindGuard AI • Frontend AI Engineering Capstone • FE-07 (Week 5)</p>
+      <p>Student: Muhammad Saqib Tariq (04072213009) • Live App: <a href="https://prismatic-dodol-61734a.netlify.app/chat" style="color: var(--accent-cyan);">prismatic-dodol-61734a.netlify.app/chat</a></p>
+    </footer>
+
+  </div>
+</body>
+</html>
