@@ -119,13 +119,13 @@ export default function HomePage() {
               <span>Emergency Crisis Triage</span>
             </Link>
 
-            <Link
-              href="/health"
+            <a
+              href="#routes"
               className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 border border-slate-700 text-sm font-medium transition-colors"
             >
-              <HeartPulse className="w-4 h-4 text-emerald-400" />
-              <span>System Health Check</span>
-            </Link>
+              <Layers className="w-4 h-4 text-indigo-400" />
+              <span>Explore Features & Spec</span>
+            </a>
           </div>
         </div>
 
@@ -151,7 +151,7 @@ export default function HomePage() {
       </section>
 
       {/* Screen Specification Directory (Routed Placeholders) */}
-      <section className="space-y-6">
+      <section id="routes" className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
           <div>
             <h2 className="text-xl sm:text-2xl font-bold text-slate-100 flex items-center gap-2">

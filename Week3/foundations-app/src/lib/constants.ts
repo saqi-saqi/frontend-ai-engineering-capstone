@@ -21,29 +21,32 @@ export const NAV_ITEMS: NavItem[] = [
     iconName: 'ShieldAlert',
     isEmergency: true,
   },
+];
+
+export const AUDIT_NAV_ITEMS: NavItem[] = [
   {
-    label: 'Telemetry',
+    label: 'Telemetry & Latency',
     href: '/telemetry',
-    description: 'TTFT, token generation throughput & metrics',
+    description: 'TTFT, token throughput & observability logs',
     iconName: 'Activity',
   },
   {
-    label: 'Settings',
+    label: 'Model Settings',
     href: '/settings',
-    description: 'Model drawer, API keys & WCAG AA validation',
+    description: 'Model drawer & WCAG AA validation form',
     iconName: 'Settings',
   },
   {
-    label: 'Health Check',
+    label: 'System Health Check',
     href: '/health',
     description: 'Live server data fetching & runtime diagnostics',
     iconName: 'HeartPulse',
-    badge: 'Live Data',
+    badge: 'Diagnostic',
   },
   {
-    label: 'Dev Log',
+    label: 'AI Engineering Log',
     href: '/devlog',
-    description: 'AI prompting logs and human code diffs',
+    description: 'AI prompting ladders and human code review diffs',
     iconName: 'FileCode',
   },
 ];
@@ -51,7 +54,7 @@ export const NAV_ITEMS: NavItem[] = [
 export const DEFAULT_SETTINGS: ModelSettings = {
   displayName: 'Saqib Tariq',
   email: 'engineer@mindguard.ai',
-  apiKey: 'sk-ant-api03-99887766554433221100aa',
+  apiKey: '',
   model: 'claude-3-5-sonnet-20241022',
   temperature: 0.7,
   simulationSpeed: 'fast',

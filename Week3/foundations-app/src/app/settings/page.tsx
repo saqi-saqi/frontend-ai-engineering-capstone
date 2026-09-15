@@ -44,10 +44,11 @@ export default function SettingsPage() {
     }
 
     if (field === 'apiKey') {
-      if (!trimmed) return 'API key is required.';
-      const anthropicKeyRegex = /^sk-ant-api[0-9a-zA-Z_-]{20,}$/;
-      if (!anthropicKeyRegex.test(trimmed)) {
-        return 'Key must start with sk-ant-api followed by at least 20 valid characters.';
+      if (trimmed) {
+        const anthropicKeyRegex = /^sk-ant-api[0-9a-zA-Z_-]{20,}$/;
+        if (!anthropicKeyRegex.test(trimmed)) {
+          return 'Custom key must start with sk-ant-api followed by valid characters.';
+        }
       }
     }
 
@@ -188,13 +189,14 @@ export default function SettingsPage() {
 
           <div>
             <label htmlFor="apiKey" className="block text-xs font-semibold text-slate-300 mb-1">
-              Anthropic / OpenAI API Key <span className="text-rose-400">*</span>
+              Custom Anthropic API Key <span className="text-slate-400 font-normal text-[11px]">(Optional — server default is active)</span>
             </label>
             <div className="relative">
               <input
                 id="apiKey"
                 type={showApiKey ? 'text' : 'password'}
                 value={formData.apiKey}
+                placeholder="sk-ant-api... (leave blank to use server environment key)"
                 onChange={(e) => handleChange('apiKey', e.target.value)}
                 onBlur={() => handleBlur('apiKey')}
                 aria-invalid={Boolean(errors.apiKey)}

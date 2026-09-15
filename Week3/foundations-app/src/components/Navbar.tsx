@@ -47,7 +47,7 @@ export function Navbar() {
                 MindGuard AI <Sparkles className="w-3.5 h-3.5 text-indigo-400 inline" />
               </span>
               <span className="text-[11px] text-slate-400 hidden sm:inline">
-                Foundations · Week 3 Live Architecture
+                Compassionate Mental Health & Safety
               </span>
             </div>
           </Link>
@@ -87,11 +87,11 @@ export function Navbar() {
           {/* Right Action: Status Pill + Mobile Hamburger */}
           <div className="flex items-center gap-3">
             <Link
-              href="/health"
+              href="/chat"
               className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-900/30 transition-colors"
             >
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Preview Live</span>
+              <span>AI Companion Online</span>
             </Link>
 
             {/* Mobile Hamburger Toggle button */}
